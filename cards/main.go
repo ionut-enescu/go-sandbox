@@ -11,15 +11,31 @@ func main() {
 	card = newCard()
 	fmt.Println(card)
 
-	cardsSlice := []string{"8 of Spades", "Queen of Hearts", newCard()}
+	cardsSlice := deck{"8 of Spades", "Queen of Hearts", newCard()}
 	fmt.Println(cardsSlice)
 
 	cardsSlice = append(cardsSlice, "Six of Diamonds")
 	fmt.Println(cardsSlice)
 
-	for i, card := range cardsSlice {
-		fmt.Println(i, card)
-	}
+	cardsSlice.printDeck()
+
+	newDeck().printDeck()
+
+	newDealedDeck, remainingCardsDeck := deal(newDeck(), 3)
+	fmt.Println("-----newDealedDeck---------")
+	newDealedDeck.printDeck()
+	fmt.Println("-----remainingCardsDeck---------")
+	remainingCardsDeck.printDeck()
+
+	fmt.Println("-----toString()---------")
+	fmt.Println(newDeck().toString())
+
+	fmt.Println("-----saveToFile()---------")
+	newDeck().saveToFile("MyCards")
+
+	fmt.Println("-----newDeckFromFile()---------")
+	newDeckFromFile("MyCards").printDeck()
+	newDeckFromFile("MyCard").printDeck()
 
 }
 
