@@ -1,0 +1,121 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "CoffeeShop API",
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:9090",
+            "description": "CoffeeShop host"
+        }
+    ],
+    "paths": {
+        "/coffeeshop/api/v1/nearme/{lat}/{lon}": {
+            "get": {
+                "tags": [
+                    "Retrieve nearby CoffeeShops using geocoordinates ordered by proximity to the inputs given"
+                ],
+                "operationId": "scanForCoffeeShops",
+                "parameters": [
+                    {
+                        "name": "latitude [-90°, 90°]",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "longitude [-90°, 90°]",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "uniqueItems": true,
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CoffeeShopDistance"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/coffeeshop/api/v1/coffeeshops": {
+            "get": {
+                "tags": [
+                    "Retrieve all CoffeeShops"
+                ],
+                "operationId": "scanForAllCoffeeShops",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "*/*": {
+                                "schema": {
+                                    "uniqueItems": true,
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CoffeeShop"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CoffeeShop": {
+                "type": "object",
+                "properties": {
+                    "location": {
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "CoffeeShopDistance": {
+                "type": "object",
+                "properties": {
+                    "coffeeShop": {
+                        "$ref": "#/components/schemas/CoffeeShop"
+                    },
+                    "distance": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            },
+            "Location": {
+                "type": "object",
+                "properties": {
+                    "lat": {
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "lon": {
+                        "type": "number",
+                        "format": "double"
+                    }
+                }
+            }
+        }
+    }
+}
